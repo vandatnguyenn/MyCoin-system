@@ -1,6 +1,6 @@
 import './App.css';
 import Web3 from 'web3';
-import { useState,  useEffect } from 'react';
+import { useState,  useEffect, useCallback } from 'react';
 import detectEthereumProvider from '@metamask/detect-provider';
 import { loadContract } from './utils/load-contract';
 
@@ -13,6 +13,8 @@ function App() {
   });
   const [account, setAccount] = useState(null);
   const [balance, setBalance] = useState(null);
+  const [shouldReload, setShouldReload] = useState(false);
+  const reloadEffect = () => {setShouldReload(!shouldReload)};
   
 
   useEffect(() => {
@@ -23,7 +25,6 @@ function App() {
       // debugger
 
       if (provider) {
-        // provider.request({method: "eth_requestAccounts"});
         setWeb3Api({
           web3: new Web3(provider),
           provider,
@@ -48,11 +49,35 @@ function App() {
   useEffect(() => {
     const loadBalance = async () => {
       const {contract, web3} = web3Api;
+
+      console.log(contract.address);
       const _balance = await web3.eth.getBalance(contract.address);
-      setBalance(web3.utils.fromWei(_balance, "ether"));
+      console.log(_balance);
+
+      setBalance(await web3.utils.fromWei(_balance, "ether"));
     };
     web3Api.contract && loadBalance()
-  }, [web3Api]) 
+  }, [web3Api, reloadEffect])
+  
+  const addFunds = useCallback(async () => {
+    const {contract, web3} = web3Api;
+    const result = await contract.addFunds({
+      from: account,
+      value: web3.utils.toWei("1", "ether")
+    });
+    console.log(result);
+    reloadEffect();
+  }, [web3Api, account]);
+
+  const withdraw = async () => {
+    const {contract, web3} = web3Api;
+    const withdrawAmount = web3.utils.toWei("0.5", "ether");
+    const result = await contract.withdraw(withdrawAmount, {
+      from: account
+    });
+    console.log(result);
+    reloadEffect();
+  };
 
   return (
     <div className='faucet-wrapper'>
@@ -60,8 +85,16 @@ function App() {
         <div className='balance-view is-size-2'>
           Current Balance: <strong>{balance}</strong>ETH
         </div>
-        <button className='button is-primary mr-5'>BUTTON 1</button>
-        <button className='button is-danger mr-5'>BUTTON 2</button>
+        <button className='button is-primary mr-5'
+          onClick={addFunds}
+        >
+          Donate
+        </button>
+        <button className='button is-danger mr-5'
+          onClick={withdraw}
+        >
+          Withdraw
+        </button>
         <button className='button is-link'
           onClick={() => 
             web3Api.provider.request({method: "eth_requestAccounts"})
