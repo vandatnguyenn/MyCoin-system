@@ -2,7 +2,13 @@ import './App.css';
 import Web3 from 'web3';
 import { useState,  useEffect, useCallback } from 'react';
 import detectEthereumProvider from '@metamask/detect-provider';
-import { loadContract } from './utils/load-contract';
+import { loadContract } from '../../utils/load-contract';
+import Navbar from '../common/navbar';
+import Box from '@mui/material/Box';
+import CssBaseline from '@mui/material/CssBaseline';
+import Toolbar from '@mui/material/Toolbar';
+
+const drawerWidth = 240;
 
 function App() {
 
@@ -80,37 +86,45 @@ function App() {
   };
 
   return (
-    <div className='faucet-wrapper'>
-      <div className='faucet'>
-        <div className='balance-view is-size-2'>
-          Current Balance: <strong>{balance}</strong>ETH
-        </div>
-        <button className='button is-primary mr-5'
-          onClick={addFunds}
+    <div className='App'>
+      <Box sx={{ display: 'flex' }}>
+        <CssBaseline />
+        <Navbar/>
+        <Box
+          component="main"
+          sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
         >
-          Donate
-        </button>
-        <button className='button is-danger mr-5'
-          onClick={withdraw}
-        >
-          Withdraw
-        </button>
-        <button className='button is-link'
-          onClick={() => 
-            web3Api.provider.request({method: "eth_requestAccounts"})
-          }
-        >
-          Connect Wallets
-        </button>
-        <span>
-          <p>
-            <strong> Accounts Address: </strong>
-            {
-              account ? account:"Account Denied"
+          <Toolbar />
+          <div className='balance-view is-size-2'>
+            Current Balance: <strong>{balance}</strong>ETH
+          </div>
+          <button className='button is-primary mr-5'
+            onClick={addFunds}
+          >
+            Donate
+          </button>
+          <button className='button is-danger mr-5'
+            onClick={withdraw}
+          >
+            Withdraw
+          </button>
+          <button className='button is-link'
+            onClick={() => 
+              web3Api.provider.request({method: "eth_requestAccounts"})
             }
-          </p>
-        </span>
-      </div>
+          >
+            Connect Wallets
+          </button>
+          <span>
+            <p>
+              <strong> Accounts Address: </strong>
+              {
+                account ? account:"Account Denied"
+              }
+            </p>
+          </span>
+        </Box>
+      </Box>
     </div>
   );
 }
