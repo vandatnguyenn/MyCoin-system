@@ -7,6 +7,11 @@ import Navbar from '../common/navbar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Toolbar from '@mui/material/Toolbar';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import Typography from '@mui/material/Typography';
 
 const drawerWidth = 240;
 
@@ -97,6 +102,19 @@ function App() {
           <Toolbar />
           <div className='balance-view is-size-2'>
             Current Balance: <strong>{balance}</strong>ETH
+          </div>
+          <div style={{padding : "20px 0 20px 0"}}>
+            <ButtonGroup variant="text" aria-label="text button group">
+              <Button
+                // startIcon={<ArrowDownwardIcon />}
+              >
+                <ArrowDownwardIcon />
+                Deposit
+              </Button>
+              <Button>Buy</Button>
+              <Button>Send</Button>
+              <Button>Swap</Button>
+            </ButtonGroup>
           </div>
           <button className='button is-primary mr-5'
             onClick={addFunds}
