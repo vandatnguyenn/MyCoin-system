@@ -141,7 +141,7 @@ function Dashboard (props) {
                 </div>
                 
             </div>
-            <div>
+            <div className='wallet-controllers'>
                 <button className='button is-primary mr-5'
                     onClick={addFunds}
                 >

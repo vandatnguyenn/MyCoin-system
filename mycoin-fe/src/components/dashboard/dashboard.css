@@ -15,7 +15,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+    margin-top: 20px;
   }
   
   .network-activity__action-wrap {

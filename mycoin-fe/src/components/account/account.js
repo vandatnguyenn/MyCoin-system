@@ -3,8 +3,20 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import './account.css';
 import Avatar from '@mui/material/Avatar';
+import { useState,  useEffect } from 'react';
 
-function Account () {
+function Account (props) {
+    const [account, setAccount] = useState(null);
+    console.log(props);
+
+    useEffect(() => {
+        const account = async () => {
+            console.log("aaaa");
+            setAccount(props.account);
+        };
+        account();
+    },[]);
+
     return (
         <div className='center'>
             <Box
@@ -13,7 +25,7 @@ function Account () {
                 flexWrap: 'wrap',
                 '& > :not(style)': {
                 m: 1,
-                width: 300,
+                width: 800,
                 height: 300,
                 },
             }}
@@ -23,7 +35,7 @@ function Account () {
                 <div className='account-content'>
                     Name: Halo world
                     <br/>
-                    Address: abc
+                    Address: {account}
                     <br/>
                     Balance: 10 ETH
                 </div>

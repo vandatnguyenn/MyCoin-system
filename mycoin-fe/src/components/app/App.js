@@ -57,8 +57,6 @@ function App() {
     web3Api.web3 && getAccount();
   }, [web3Api.web3]);
 
-  console.log(account);
-
   return (
     <div className='App'>
       <Box sx={{ display: 'flex' }}>
@@ -72,7 +70,7 @@ function App() {
           <Routes>
             <Route path='/' element={<Dashboard/>} />
             <Route path='/transactions' element={<Transactions />} />
-            <Route path='/account' element={<Account />} />
+            <Route path='/account' element={<Account account={account}/>} />
           </Routes>
           
         </Box>
