@@ -11,14 +11,14 @@ import SwapHorizontalCircleIcon from '@mui/icons-material/SwapHorizontalCircle';
 function Dashboard (props) {
 
     const [web3Api, setWeb3Api] = useState({
-        provider: null,
-        web3: null,
-        contract: null,
-      });
-      const [account, setAccount] = useState(null);
-      const [balance, setBalance] = useState(null);
-      const [shouldReload, setShouldReload] = useState(false);
-      const reloadEffect = () => {setShouldReload(!shouldReload)};
+      provider: null,
+      web3: null,
+      contract: null,
+    });
+    const [account, setAccount] = useState(null);
+    const [balance, setBalance] = useState(null);
+    const [shouldReload, setShouldReload] = useState(false);
+    const reloadEffect = () => {setShouldReload(!shouldReload)};
       
     
       useEffect(() => {

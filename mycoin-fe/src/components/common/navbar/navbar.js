@@ -1,5 +1,8 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
+import Web3 from 'web3';
+import { useState,  useEffect } from 'react';
+import detectEthereumProvider from '@metamask/detect-provider';
+import { loadContract } from '../../../utils/load-contract';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
@@ -15,16 +18,52 @@ import ListAltIcon from '@mui/icons-material/ListAlt';
 import PersonIcon from '@mui/icons-material/Person';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 
 const drawerWidth = 240;
 
 function Navbar(props) {
-    const { window } = props;
+    const { onSignin, setCookie, window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
+    const [web3Api, setWeb3Api] = useState({
+      provider: null,
+      web3: null,
+      contract: null,
+    });
+    const [account, setAccount] = useState(null);
   
     const handleDrawerToggle = () => {
       setMobileOpen(!mobileOpen);
     };
+
+    useEffect(() => {
+      const loadProvider = async () => {
+        const provider = await detectEthereumProvider();
+        const contract = await loadContract("faucet", provider);
+        
+        // debugger
+  
+        if (provider) {
+          setWeb3Api({
+            web3: new Web3(provider),
+            provider,
+            contract
+          })
+        }
+        else {
+          console.error("please install metamask");
+        }
+      }
+      loadProvider();
+    }, []);
+
+    useEffect(() => {
+      const getAccount = async () => {
+        const accounts = await web3Api.web3.eth.getAccounts();
+        setAccount(accounts[0]);
+      };
+      web3Api.web3 && getAccount();
+    }, [web3Api.web3]);
   
     const drawer = (
       <div>
@@ -33,18 +72,18 @@ function Navbar(props) {
         <List>
             <ListItem key="Account" disablePadding>
               <ListItemButton>
-                <ListItemIcon>
+                <ListItemIcon href="/account">
                   <PersonIcon/>
                 </ListItemIcon>
                 <ListItemText primary="Account" />
               </ListItemButton>
             </ListItem>
-            <ListItem key="Activity" disablePadding>
-              <ListItemButton>
+            <ListItem key="Transactions" disablePadding>
+              <ListItemButton href="/transactions">
                 <ListItemIcon>
                   <ListAltIcon />
                 </ListItemIcon>
-                <ListItemText primary="Activity" />
+                <ListItemText primary="Transactions" />
               </ListItemButton>
             </ListItem>
         </List>
@@ -58,8 +97,8 @@ function Navbar(props) {
             <AppBar
                 position="fixed"
                 sx={{
-                width: { sm: `calc(100% - ${drawerWidth}px)` },
-                ml: { sm: `${drawerWidth}px` },
+                  width: { sm: `calc(100% - ${drawerWidth}px)` },
+                  ml: { sm: `${drawerWidth}px` },
                 }}
             >
                 <Toolbar>
@@ -74,9 +113,15 @@ function Navbar(props) {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" noWrap component="div">
-                        News
+                        DCoin
                     </Typography>
-                    {/* <Button color="inherit">Login</Button> */}
+                    <Button 
+                      color="inherit" 
+                      // onClick={() => web3Api.provider.request({method: "eth_requestAccounts"})}
+                      onClick={() => onSignin()}
+                    >
+                      Login
+                    </Button>
                 </Toolbar>
             </AppBar>
             <Box
