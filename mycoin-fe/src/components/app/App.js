@@ -21,7 +21,7 @@ function App() {
     contract: null,
   });
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
-
+  const [account, setAccount] = useState(null);
 
   const onSignIn = async () => {
     await web3Api.provider.request({method: "eth_requestAccounts"});
@@ -47,6 +47,16 @@ function App() {
     }
     loadProvider();
   }, []);
+
+  useEffect(() => {
+    const getAccount = async () => {
+      const accounts = await web3Api.web3.eth.getAccounts();
+      setAccount(accounts[0]);
+    };
+    web3Api.web3 && getAccount();
+  }, [web3Api.web3]);
+
+  console.log(account);
 
   return (
     <div className='App'>

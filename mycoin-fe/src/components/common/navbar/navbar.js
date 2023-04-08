@@ -101,7 +101,7 @@ function Navbar(props) {
                   ml: { sm: `${drawerWidth}px` },
                 }}
             >
-                <Toolbar>
+                <Toolbar sx={{ justifyContent: "space-between" }}>
                     <IconButton
                         size="large"
                         edge="start"
@@ -112,16 +112,17 @@ function Navbar(props) {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" noWrap component="div">
+                    <Typography variant="h6" noWrap component="div" href='/'>
                         DCoin
                     </Typography>
-                    <Button 
-                      color="inherit" 
-                      // onClick={() => web3Api.provider.request({method: "eth_requestAccounts"})}
-                      onClick={() => onSignin()}
-                    >
-                      Login
-                    </Button>
+                    <div className='align-right'>
+                      <Button 
+                        color="inherit"
+                        onClick={() => onSignin()}
+                      >
+                        Login
+                      </Button>
+                    </div>
                 </Toolbar>
             </AppBar>
             <Box
