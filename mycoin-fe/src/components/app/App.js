@@ -11,6 +11,7 @@ import detectEthereumProvider from '@metamask/detect-provider';
 import { loadContract } from '../../utils/load-contract';
 import { useState,  useEffect } from 'react';
 import Transactions from '../transactions/transactions';
+import Account from '../account/account';
 
 const drawerWidth = 240;
 
@@ -71,6 +72,7 @@ function App() {
           <Routes>
             <Route path='/' element={<Dashboard/>} />
             <Route path='/transactions' element={<Transactions />} />
+            <Route path='/account' element={<Account />} />
           </Routes>
           
         </Box>

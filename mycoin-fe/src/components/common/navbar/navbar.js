@@ -19,6 +19,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 
 const drawerWidth = 240;
 
@@ -71,8 +72,8 @@ function Navbar(props) {
         <Divider />
         <List>
             <ListItem key="Account" disablePadding>
-              <ListItemButton>
-                <ListItemIcon href="/account">
+              <ListItemButton href="/account">
+                <ListItemIcon>
                   <PersonIcon/>
                 </ListItemIcon>
                 <ListItemText primary="Account" />
@@ -112,9 +113,12 @@ function Navbar(props) {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" noWrap component="div" href='/'>
+                    {/* <Typography variant="h6" noWrap component="div" href='/'>
                         DCoin
-                    </Typography>
+                    </Typography> */}
+                    <IconButton href='/'>
+                      <HomeOutlinedIcon/>
+                    </IconButton>
                     <div className='align-right'>
                       <Button 
                         color="inherit"
